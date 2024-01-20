@@ -1,3 +1,6 @@
+// require('dotenv').config();
+
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util.js';
@@ -29,6 +32,26 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util.js';
 
     /**************************************************************************** */
 
+    app.get("/filteredimage/", async (req, res) => {
+      try {
+        let { image_url } = req.query;
+    
+        if (!image_url) {
+          return res.status(400).send("Image URL is required");
+        }
+    
+        const imagePath = await filterImageFromURL(image_url);
+    
+        return res.status(200).sendFile(imagePath, (err) => {
+          if (!err) {
+            let filesList = [imagePath];
+            deleteLocalFiles(filesList);
+          }
+        });
+      } catch (error) {
+        return res.status(422).send("Error when processing the image");
+      }
+    });
   //! END @TODO1
   
   // Root Endpoint
@@ -43,3 +66,6 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util.js';
       console.log( `server running http://localhost:${ port }` );
       console.log( `press CTRL+C to stop server` );
   } );
+
+
+
