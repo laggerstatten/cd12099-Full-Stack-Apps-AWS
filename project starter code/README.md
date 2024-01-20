@@ -1,0 +1,1 @@
+working link: http://image-processing-microservice.eba-9qy3t9mz.us-east-1.elasticbeanstalk.com/filteredimage?image_url=https://images.freeimages.com/images/large-previews/0db/tropical-bird-1390996.jpg
